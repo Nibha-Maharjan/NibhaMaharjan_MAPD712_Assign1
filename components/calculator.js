@@ -2,6 +2,8 @@ import React,{useState} from "react";
 import { StyleSheet, Text, View,TextInput, TouchableOpacity, Switch } from 'react-native';
 
 export default function BMIcalculator() {
+    const [weight,setWeight] = React.useState('Weight (Kg)');
+    const [height,setHeight] = React.useState('Height (m)');
     const [userWeight, setUserWeight] = React.useState('');
     const [userHeight, setUserHeight] = React.useState('');
     const [bmi, setBmi] = React.useState('');
@@ -9,11 +11,41 @@ export default function BMIcalculator() {
     const [isEnabled,setIsEnabled] = React.useState(false);
 
     const toggleSwitch = () =>{
+        if(isEnabled){
+            setWeight('Weight (Kg)')
+            setHeight('Height (m)')
+            
+        }else{
+            setWeight('Weight (lbs)')
+            setHeight('Height (Inch)')
+        }
         setIsEnabled ((previousState) => !previousState);
     }
     
 
     const buttonClicked = () => {
+        if(isEnabled){
+
+            if (userWeight ==='' || userHeight ==='' && userWeight ==='0' || userHeight ==='0' ){
+                alert('Please enter a valid Weight and Height')
+            }else{
+                let bmi=((userWeight*703)/(userHeight*userHeight))
+                setBmi(bmi.toFixed(1))
+                if (bmi<11){
+                    setMessage('invalid data')
+                }
+                else if (bmi>11 && bmi < 18.5){
+                    setMessage('You are underweight')
+                }else if (bmi >=18.5 && bmi<24.9){
+                    setMessage('You are at the perfect weight')
+                }else if (bmi >=25 && bmi<29.9){
+                    setMessage('You are overweight')
+                }else {
+                    setMessage('You are obesity')}
+            }
+
+        
+    }else{
         if (userWeight ==='' || userHeight ==='' && userWeight ==='0' || userHeight ==='0' ){
             alert('Please enter a valid Weight and Height')
         }else{
@@ -23,21 +55,17 @@ export default function BMIcalculator() {
                 setMessage('invalid data')
             }
             else if (bmi>11 && bmi < 18.5){
-                setMessage('underweight')
+                setMessage('You are underweight')
             }else if (bmi >=18.5 && bmi<24.9){
-                setMessage('perfect')
+                setMessage('You are at the perfect weight')
             }else if (bmi >=25 && bmi<29.9){
-                setMessage('overweight')
+                setMessage('You are overweight')
             }else {
-                setMessage('obesity')}
+                setMessage('You are obesity')}
         }
-        
-        
-        // }else {
-        //     setMessage('invalid data')
-        // }
-        
     }
+    }
+    
     const btnClear = () => {
         setUserWeight("");
         setUserHeight("");
@@ -48,13 +76,13 @@ export default function BMIcalculator() {
             <View style={styles.container}>
             <Text style={styles.headd}>MBI Calculator</Text>
 
-            <Text style={styles.textt}>Your Weight(Kg)</Text>
+            <Text style={styles.textt}>{weight}</Text>
             <TextInput style={styles.textinput}
                 placeholder="Enter Your Weight"
                 onChangeText={value => setUserWeight(value) }
                 value={userWeight}
             />
-            <Text style={styles.textt}>Your Height(m)</Text>
+            <Text style={styles.textt}>{height}</Text>
             <TextInput style={styles.textinput}
                 placeholder="Enter Your Height"
                 onChangeText={value => setUserHeight(value) }
@@ -71,6 +99,7 @@ export default function BMIcalculator() {
             </TouchableOpacity>
             <Text style={styles.result}>Your bmi: {bmi}</Text>
             <Text style={styles.result}>{message}</Text>
+            
             <Switch
                 style={styles.switch}
                 onValueChange={toggleSwitch}
@@ -130,7 +159,7 @@ const styles = StyleSheet.create({
         
     },
     result: {
-        fontSize:30,
+        fontSize:20,
         alignSelf: "stretch",
         paddingLeft: 15,
         marginTop: 25
