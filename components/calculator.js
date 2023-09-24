@@ -2,6 +2,8 @@ import React,{useState} from "react";
 import { StyleSheet, Text, View,TextInput, TouchableOpacity, Switch } from 'react-native';
 
 export default function BMIcalculator() {
+
+    //Adding states to components
     const [weight,setWeight] = React.useState('Weight (Kg)');
     const [height,setHeight] = React.useState('Height (m)');
     const [userWeight, setUserWeight] = React.useState('');
@@ -9,23 +11,28 @@ export default function BMIcalculator() {
     const [bmi, setBmi] = React.useState('');
     const [message, setMessage] = React.useState('');
     const [isEnabled,setIsEnabled] = React.useState(false);
+    const [switchChange,setSwitchChange] = React.useState('SI Unit (Kg/m)')
 
+    //Switch toggle change Units of measurement 
     const toggleSwitch = () =>{
         if(isEnabled){
             setWeight('Weight (Kg)')
             setHeight('Height (m)')
+            setSwitchChange('SI Unit (Kg/m)')
             
         }else{
             setWeight('Weight (lbs)')
             setHeight('Height (Inch)')
+            setSwitchChange('Imperial Units (lbs/Inch)')
         }
         setIsEnabled ((previousState) => !previousState);
     }
     
-
+    //Button click event for calculation
     const buttonClicked = () => {
         if(isEnabled){
 
+            //Calculation for Imperial Units
             if (userWeight ==='' || userHeight ==='' && userWeight ==='0' || userHeight ==='0' ){
                 alert('Please enter a valid Weight and Height')
             }else{
@@ -41,10 +48,10 @@ export default function BMIcalculator() {
                 }else if (bmi >=25 && bmi<29.9){
                     setMessage('You are overweight')
                 }else {
-                    setMessage('You are obesity')}
+                    setMessage('You are obese')}
             }
 
-        
+        //Calculation for SI Units
     }else{
         if (userWeight ==='' || userHeight ==='' && userWeight ==='0' || userHeight ==='0' ){
             alert('Please enter a valid Weight and Height')
@@ -61,17 +68,19 @@ export default function BMIcalculator() {
             }else if (bmi >=25 && bmi<29.9){
                 setMessage('You are overweight')
             }else {
-                setMessage('You are obesity')}
+                setMessage('You are obese')}
         }
     }
     }
     
+    // Clear button action
     const btnClear = () => {
         setUserWeight("");
         setUserHeight("");
         setBmi("");
         setMessage("");
     }
+    //UI Elements
     return (
             <View style={styles.container}>
             <Text style={styles.headd}>MBI Calculator</Text>
@@ -82,12 +91,14 @@ export default function BMIcalculator() {
                 onChangeText={value => setUserWeight(value) }
                 value={userWeight}
             />
+
             <Text style={styles.textt}>{height}</Text>
             <TextInput style={styles.textinput}
                 placeholder="Enter Your Height"
                 onChangeText={value => setUserHeight(value) }
                 value={userHeight}
             />
+
             <TouchableOpacity style={styles.submit}
                 onPress={buttonClicked}>
                 { <Text style={styles.textView}>Send</Text> }
@@ -97,11 +108,16 @@ export default function BMIcalculator() {
                 onPress={btnClear}>
                 { <Text style={styles.textView}>Clear</Text> }
             </TouchableOpacity>
+
             <Text style={styles.result}>Your bmi: {bmi}</Text>
             <Text style={styles.result}>{message}</Text>
-            
+
+            <Text style={styles.switchtext}>{switchChange}</Text>
             <Switch
                 style={styles.switch}
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
                 onValueChange={toggleSwitch}
                 value={isEnabled}
             />
@@ -109,18 +125,21 @@ export default function BMIcalculator() {
     );
 }
 
+//Styling for our app
 const styles = StyleSheet.create({
     headd:{
         fontSize: 30,
         marginBottom: 10,
         padding:40,
+        color:'#2ec4b6'
         
     },
     textt: {
         alignSelf: "stretch",
         paddingLeft: 15,
         marginBottom: 5,
-        marginTop: 5
+        marginTop: 5,
+        color:'#2A9D8F'
     },
     textinput: {
         alignSelf: "stretch",
@@ -129,13 +148,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         paddingLeft: 15,
         color: "#000",
-        borderColor: "#008000",
+        borderColor: "#E9C46A",
         borderWidth:1,
         borderRadius: 30,
+        color:'#2A9D8F'
     },
     submit: {
         elevation: 8,
-        backgroundColor: "#00ff97",
+        backgroundColor: "#E76F51",
         borderRadius: 30,
         paddingVertical: 10,
         paddingHorizontal: 12,
@@ -143,7 +163,7 @@ const styles = StyleSheet.create({
       },
     opacitybutton: {
         elevation: 8,
-        backgroundColor: "#effac3",
+        backgroundColor: "#F4A261",
         borderRadius: 30,
         paddingVertical: 10,
         paddingHorizontal: 12,
@@ -152,19 +172,27 @@ const styles = StyleSheet.create({
     },
     textView:{
         fontSize: 18,
-        color: "gray",
+        color: "#023047",
         fontWeight: "bold",
         alignSelf: "center",
-        textTransform: "uppercase"
-        
+        textTransform: "uppercase",
     },
     result: {
         fontSize:20,
         alignSelf: "stretch",
         paddingLeft: 15,
-        marginTop: 25
+        marginTop: 15,
+        color:'#2A9D8F'
+    },
+    switchtext: {
+        fontSize:20,
+        alignSelf: "stretch",
+        paddingLeft: 15,
+        marginTop: 30,
+        color:'#2A9D8F'
     },
     switch: {
-        alignSelf:'center'
+        alignSelf:'center',
+        marginTop:20
     }
 });
