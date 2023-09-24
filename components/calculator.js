@@ -182,14 +182,16 @@ const styles = StyleSheet.create({
         alignSelf: "stretch",
         paddingLeft: 15,
         marginTop: 15,
-        color:'#2A9D8F'
+        color:'#2A9D8F',
+        alignSelf: "center",
     },
     switchtext: {
         fontSize:20,
         alignSelf: "stretch",
         paddingLeft: 15,
         marginTop: 30,
-        color:'#2A9D8F'
+        color:'#2A9D8F',
+        alignSelf: "center",
     },
     switch: {
         alignSelf:'center',
