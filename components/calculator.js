@@ -83,7 +83,7 @@ export default function BMIcalculator() {
     //UI Elements
     return (
             <View style={styles.container}>
-            <Text style={styles.headd}>MBI Calculator</Text>
+            <Text style={styles.headd}>BMI Calculator</Text>
 
             <Text style={styles.textt}>{weight}</Text>
             <TextInput style={styles.textinput}
